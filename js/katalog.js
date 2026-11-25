@@ -4,76 +4,9 @@
 // Praktikum Pemrograman Web 1 · Sasirangan Banua
 // =========================================================
 
-// 1. Data katalog: array yang berisi objek-objek produk
-const katalog = [
-    {
-        id: 1,
-        nama: "Kain Motif Bayam Raja",
-        kategori: "kain",
-        harga: 180000,
-        gambar: "img/bayam-raja.svg",
-        deskripsi: "Kain sasirangan dengan motif Bayam Raja yang memiliki corak khas dan menarik.",
-    },
-    {
-        id: 2,
-        nama: "Kain Motif Gigi Haruan",
-        kategori: "kain",
-        harga: 185000,
-        gambar: "img/gigi-haruan.svg",
-        deskripsi: "Kain katun 2 meter bermotif zig-zag menyerupai gigi ikan haruan.",
-    },
-    {
-        id: 3,
-        nama: "Selendang Iris Pudak",
-        kategori: "aksesoris",
-        harga: 120000,
-        gambar: "img/iris-pudak.svg",
-        deskripsi: "Selendang sasirangan bermotif Iris Pudak dengan corak khas budaya Banjar.",
-    },
-    {
-        id: 4,
-        nama: "Kain Motif Kambang Kacang",
-        kategori: "kain",
-        harga: 175000,
-        gambar: "img/kambang-kacang.svg",
-        deskripsi: "Motif bunga kacang yang melambangkan keakraban dan kerukunan.",
-    },
-    {
-        id: 5,
-        nama: "Kain Motif Naga Balimbur",
-        kategori: "kain",
-        harga: 200000,
-        gambar: "img/naga-balimbur.svg",
-        deskripsi: "Kain sasirangan dengan motif Naga Balimbur yang menggambarkan keunikan budaya Banjar.",
-    },
-    {
-        id: 6,
-        nama: "Kain Motif Ombak Sinapur Karang",
-        kategori: "kain",
-        harga: 195000,
-        gambar: "img/ombak-sinapur-karang.svg",
-        deskripsi: "Kain sasirangan dengan pola ombak yang memberikan tampilan khas dan menarik.",
-    },
-    {
-        id: 7,
-        nama: "Gamis Sasirangan Bayam Raja",
-        kategori: "pakaian",
-        harga: 250000,
-        gambar: "img/bayam-raja.svg",
-        deskripsi: "Gamis wanita bermotif Bayam Raja dengan sentuhan khas budaya Banjar.",
-    },
-    {
-        id: 8,
-        nama: "Tas Sasirangan Naga Balimbur",
-        kategori: "aksesoris",
-        harga: 150000,
-        gambar: "img/naga-balimbur.svg",
-        deskripsi: "Tas bermotif Naga Balimbur sebagai aksesoris dengan sentuhan budaya Banjar.",
-    },
-];
-
-// Menampilkan data katalog di Console
-console.table(katalog);
+// 1. Data katalog kini disimpan di data/katalog.json.
+// Awalnya kosong, lalu diisi oleh fungsi muatKatalog().
+let katalog = [];
 
 // 2. Ambil elemen-elemen HTML yang akan dimanipulasi
 const daftarKatalog = document.querySelector("#daftar-katalog");
@@ -188,5 +121,26 @@ tombolFilter.forEach((tombol) => {
     });
 });
 
-// 10. Tampilkan semua produk ketika halaman pertama kali dibuka
-tampilkanKatalog(katalog);
+
+// 10. Memuat data katalog dari file JSON secara asinkron
+async function muatKatalog() {
+    infoJumlah.textContent = "Memuat katalog...";
+
+    try {
+        const respons = await fetch("data/katalog.json");
+
+        if (!respons.ok) {
+            throw new Error(`Gagal memuat katalog (HTTP ${respons.status})`);
+        }
+
+        katalog = await respons.json();
+        tampilkanKatalog(katalog);
+
+    } catch (galat) {
+        console.error(galat);
+        infoJumlah.textContent =
+            "Maaf, katalog gagal dimuat. Periksa koneksi Anda lalu muat ulang halaman.";
+    }
+}
+
+muatKatalog();
