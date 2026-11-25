@@ -221,3 +221,30 @@ textarea:focus-visible {
     font-weight: 700;
     color: var(--warna-utama);
 }
+
+
+/* ---------- 8. Tabel ---------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: var(--warna-kartu);
+    box-shadow: var(--bayangan);
+}
+
+caption {
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    text-align: left;
+}
+
+th,
+td {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #eeeeee;
+    text-align: left;
+}
+
+thead th {
+    background-color: var(--warna-utama);
+    color: #ffffff;
+}
